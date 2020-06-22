@@ -51,7 +51,7 @@ def hurricane_dict(names,months,years,max_sustained_winds,areas_affected,newdam,
 def organize_year(inptyear=None,**dic):
   try:
     year_dict={}
-    for key,value in dic.items():
+    for value in dic.values():
       temp={}
       temp=dict(value.items())
       year= temp['Year']
@@ -69,7 +69,7 @@ def organize_year(inptyear=None,**dic):
 # write your count affected areas function here:
 def affected_areas(**dic):
   area_dict={}
-  for key,value in dic.items():
+  for value in dic.values():
     temp={}
     temp=dict(value.items())
     area=temp['Areas Affected']
@@ -86,8 +86,8 @@ def affected_areas(**dic):
 
 
 # write your find most affected area function here:
-#use result from affected_areas for this
 def most_affected(**dic):
+  dic=affected_areas(**dic)
   greatest=0
   mostarea=""
   for area, count in dic.items():
@@ -103,7 +103,7 @@ def most_affected(**dic):
 # write your greatest number of deaths function here:
 def death_count(**dic):
   death_dict={}
-  for key,value in dic.items():
+  for value in dic.values():
     temp=dict(value.items())
     death_dict[temp['Name']]=temp['Deaths']
   area=""
@@ -124,7 +124,7 @@ def death_count(**dic):
 # write your catgeorize by mortality function here:
 def mortality_scale(**dic):
   mortality_scale = {0:[],1:[],2:[], 3:[], 4:[],5:[]}
-  for key,value in dic.items():
+  for value in dic.values():
     temp=dict(value.items())
     if temp['Deaths'] in range(1,101):
       mortality_scale[1].append(temp['Name'])
@@ -151,7 +151,7 @@ def mortality_scale(**dic):
 def greatest_damage(**dic):
   mostdamage=0
   name=''
-  for key,value in dic.items():
+  for value in dic.values():
     temp=dict(value.items())
     if temp['Damages']!='Damages not recorded':
       if temp['Damages']>mostdamage:
@@ -169,7 +169,7 @@ def greatest_damage(**dic):
 # write your catgeorize by damage function here:
 def damage_scale(**dic):
   damage_scale = {'Unknown':[],1:[],2:[], 3:[], 4:[],5:[]}
-  for key,value in dic.items():
+  for value in dic.values():
     temp=dict(value.items())
     if temp['Damages']!='Damages not recorded':
       if int(temp['Damages']) in range(1,100000001):
@@ -193,7 +193,7 @@ def damage_scale(**dic):
 
 dic=hurricane_dict(names,months,years,max_sustained_winds,areas_affected,newdam,deaths)
 
-print(greatest_damage(**dic))
+print(organize_year(**dic))
 
 
 
