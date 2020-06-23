@@ -1,3 +1,7 @@
+type_advantages={'Fire':['Grass'],'Water':['Fire'],'Grass':['Fire']}
+
+type_disadvantages={'Fire':['Water'],'Water':['Grass'],'Grass':['Fire']}
+
 class Pokemon:
   def __init__(self,name,level,typ,max_health,current_health,knocked_out,max_exp,current_exp,**evolution):
     self.name=name
@@ -72,39 +76,14 @@ KO'd?:{}""".format(self.name,self.level,self.type,self.current_health,self.evol_
 
   def attack(self,other):
     if self.knocked_out==False:
-      if self.type=="Fire":
-        if other.type=="Water":
-          return("""{self} attacked {other}! It wasn't very effective... 
-{lose}""".format(self=self,other=other,lose=other.lose_health(self.level/2,self)))
-        elif other.type=="Grass":
-          return("""{self} attacked {other}! It's super effective!
+      if other.type in type_advantages[self.type]:
+        return("""{self} attacked {other}! It's super effective!
 {lose}""".format(self=self,other=other,lose=other.lose_health(self.level * 2,self)))
-        else:
-          return("""{self} attacked {other}!
-{lose}""".format(self=self,other=other,lose=other.lose_health(self.level,self)))
-
-      elif self.type=="Water":
-        if other.type=="Fire":
+      elif other.type in type_disadvantages[self.type]:
           return("""{self} attacked {other}! It wasn't very effective... 
 {lose}""".format(self=self,other=other,lose=other.lose_health(self.level / 2,self)))
-        elif other.type=="Grass":
-          return("""{self} attacked {other}! It's super effective!
-{lose}""".format(self=self,other=other,lose=other.lose_health(self.level * 2,self)))
-        else:
-          return("""{self} attacked {other}!
-{lose}""".format(self=self,other=other,lose=other.lose_health(self.level,self)))
-
       else:
-        if other.type=="Fire":
-          return("""{self} attacked {other}! It wasn't very effective... 
-{lose}""".format(self=self,other=other,lose=other.lose_health(self.level / 2,self)))
-        elif other.type=="Water":
-          return("""{self} attacked {other}! It's super effective!
-{lose}""".format(self=self,other=other,lose=other.lose_health(self.level * 2,self)))
-        else:
-          return("""{self} attacked {other}!
-{lose}""".format(self=self,other=other,lose=other.lose_health(self.level,self)))
-
+        return(f'{self} attacked {other}! {other.lose_health(self.level,self)}')
     else:
       return("This Pokemon is fainted!")
 
@@ -169,6 +148,7 @@ class Trainer:
   def attack_trainer(self,opponent):
     return(self.active.attack(opponent.active))
     
+    
   
   def switch_active(self,choice):
     if self.active!=choice:
@@ -200,6 +180,10 @@ Squirtle=Pokemon('Squirtle',1,'Water',100,1,False,50,0,**{Wartortle.name:20,Blas
 
 blue_pokemon=[Squirtle]
 Blue=Trainer('Blue',*blue_pokemon,num_of_potions=4)
+
+print(Red.switch_active(Bulbasaur))
+print(Red.attack_trainer(Blue))
+print(Red)
 
 
 
